@@ -42,6 +42,13 @@ And then have the BAM broken out by chromosome
 
 Note that if you have a custom store you can add even more custom variables to interpolate
 
+## Example config
+
+    [tracks.MyTrack]
+    urlTemplate={refseq}.vcf.gz
+    storeClass=FastLoader/Store/SeqFeature/VCFLoader
+    type=CanvasVariants
+
 ## Installation
 
 
