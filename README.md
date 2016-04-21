@@ -4,6 +4,15 @@
 A JBrowse plugin to load BED tabix, VCF tabix, or BAM as a blank track if the index url gets a 404
 
 
+## Options
+
+Three storeClass types are available
+
+    FastLoader/Store/SeqFeature/BAMLoader
+    FastLoader/Store/SeqFeature/VCFLoader
+    FastLoader/Store/SeqFeature/BEDLoader
+
+
 ## Usage
 
 
@@ -36,6 +45,10 @@ Note that if you have a custom store you can add even more custom variables to i
 ## Installation
 
 
-Download to the jbrowse folder as plugins/VCFLoader
+Download the repo to plugins/FastLoader
 
-Add to config with "plugins": ["VCFLoader"] or similar
+Then add to the jbrowse config something like
+
+    "plugins": ["FastLoader"]
+
+
