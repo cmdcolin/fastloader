@@ -34,6 +34,9 @@ return declare( SeqFeatureStore,
             return this.store.getFeatures(query, featCallback, successCallback, errorCallback);
         }
         else successCallback({});
+    },
+    getVCFHeader: function() {
+        return this.store.getVCFHeader();
     }
 });
 });
