@@ -4,7 +4,8 @@ define([
            'dojo/request/xhr',
            'dojo/Deferred',
            'JBrowse/Store/SeqFeature/BEDTabix',
-           'JBrowse/Store/SeqFeature'
+           'JBrowse/Store/SeqFeature',
+           'JBrowse/Store/DeferredFeaturesMixin'
        ],
        function(
            declare,
@@ -12,24 +13,29 @@ define([
            xhr,
            Deferred,
            BEDTabix,
-           SeqFeatureStore
+           SeqFeatureStore,
+           DeferredFeaturesMixin
        ) {
 
 
-return declare( SeqFeatureStore,
+return declare( [SeqFeatureStore, DeferredFeaturesMixin],
 {
     constructor: function( args ) {
         var thisB = this;
         var tbiUrl = this.resolveUrl( this.getConf('tbiUrlTemplate',[]) || this.getConf('urlTemplate',[])+'.tbi' );
         xhr(tbiUrl).then(function(ret) {
             thisB.store = new BEDTabix(args);
+            thisB.store._deferred.features.then(function() {
+                thisB._deferred.features.resolve({success: true});
+            });
         }, function(err) {
             if(err.response.status == 404) {
                 console.log('Tabix not found, using blank');
             }
+            thisB._deferred.features.resolve({success: true});
         });
     },
-    getFeatures: function(query, featCallback, successCallback, errorCallback) {
+    _getFeatures: function(query, featCallback, successCallback, errorCallback) {
         if(this.store) {
             return this.store.getFeatures(query, featCallback, successCallback, errorCallback);
         }
